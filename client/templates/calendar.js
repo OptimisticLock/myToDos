@@ -17,8 +17,13 @@ Template.calendar.helpers({
 
             var e1 = {
                 title: "Hello1",
-                start: "2016-03-14T12:00:00",
-                end: "2016-03-14T12:59:00",
+                start: "2016-03-30T12:00:00",
+                end: "2016-03-30T12:59:00",
+                allDay: false,
+                className: "calendarEvent",
+                editable: true,
+                startEditable: true,
+                durationEditable: true
 
             }
 
