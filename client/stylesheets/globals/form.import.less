@@ -42,13 +42,14 @@ input:-webkit-autofill {
       .transform(translate3d(-50%, -50%, 0));
       background: transparent;
       box-shadow: #abdfe3 0 0 0 1px inset;
+      border: solid lightblue 1px;
       content: '';
       display: block;
     }
 
     &:checked + span:before {
       box-shadow: none;
-      color: @color-medium-rare;
+      color: #333;
 
       // Icon family from icon.lessimport
       font-family: 'todos';
