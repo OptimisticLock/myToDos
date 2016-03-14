@@ -10,12 +10,18 @@ Template.todosItem.helpers({
 
   // Irina
   startAt: function() {
-  //  console.log("time", this)
-    var d = toDate(this.text, this.createdAt)
-//    console.log("Date", d)
-    var result = d.text;
-    this.start = d.start;
-    return d.text? d.text + ": " + d.start : null
+  //  var d = toDate(this.text, this.createdAt)
+  //  var result = d.text;
+  //  this.start = d.start;
+  //  return d.text? d.text + ": " + d.start : null
+    console.log("start at", this)
+    var when = this.when
+
+    if (!when)
+      return "no particular time"
+
+    var start = when.start
+    return start
   }
 });
 

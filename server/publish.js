@@ -20,11 +20,13 @@ Meteor.publish('todos', function (listId) {
 Meteor.methods({
     addTodo: function (listId, text) {
         console.log("**** add todo")
+        var now = new Date()
         Todos.insert({
             listId: listId,
             text: text,
             checked: false,
-            createdAt: new Date()
+            when: toDate(text, now),
+            createdAt: now
         });
 
         Lists.update(listId, {$inc: {incompleteCount: 1}});
@@ -37,24 +39,31 @@ Meteor.methods({
     },
 
     updateTodo: function (id, text) {
-        Todos.update(id, {$set: {text: text}});
+        var todo = Todos.find(id)
+
+        Todos.update(id, {
+            $set: {
+                text: text,
+                when: toDate(text, todo.createdAt)
+            }
+        });
     },
 
     // TODO: don't pass listId from client, get it on server
-    removeTodo: function(listId, id) {
+    removeTodo: function (listId, id) {
         Todos.remove(id);
-        if (! this.checked)
+        if (!this.checked)
             Lists.update(listId, {$inc: {incompleteCount: -1}});
     },
 
-    removeList: function(listId) {
-        Todos.find({listId: listId}).forEach(function(todo) {
+    removeList: function (listId) {
+        Todos.find({listId: listId}).forEach(function (todo) {
             Todos.remove(todo._id);
         });
         Lists.remove(listId);
     },
 
-    togglePrivacy: function(listId) {
+    togglePrivacy: function (listId) {
 
     }
 
