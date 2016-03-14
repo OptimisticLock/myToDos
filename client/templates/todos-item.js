@@ -10,10 +10,6 @@ Template.todosItem.helpers({
 
   // Irina
   startAt: function() {
-  //  var d = toDate(this.text, this.createdAt)
-  //  var result = d.text;
-  //  this.start = d.start;
-  //  return d.text? d.text + ": " + d.start : null
     console.log("start at", this)
     var when = this.when
 
