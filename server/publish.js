@@ -14,49 +14,37 @@ Meteor.publish('todos', function (listId) {
     check(listId, String);
 
     return Todos.find();
-  //  return Todos.find({listId: listId});
+    //  return Todos.find({listId: listId});
 });
 
+//-------------------------------------------
+function parseDate(text, refDate) {
+    var d = toDate(text, refDate)
+    console.log("To date is", d)
+    var date = d ? d.start.date() : null
+    var dateAsText = d ? d.text : null
+    return {date, dateAsText }
+}
+
 // Irina
+//---------------------------------------------------
 Meteor.methods({
     addTodo: function (listId, text) {
-        console.log("**** add todo")
         var now = new Date()
-        var d = toDate(text, now)
-        console.log("To date is", d)
-        var date = d? d.start.date() : null
-        var dateAsText = d ? d.text : null
-
-        Todos.insert({
-            listId: listId,
-            text: text,
-            date: date,
-            dateAsText: dateAsText,
-            createdAt: now
-        });
-
+        var {date, dateAsText} = parseDate(text, now)
+        var todo = {listId, text, date, dateAsText, createdAt: now}
+        Todos.insert(todo);
         Lists.update(listId, {$inc: {incompleteCount: 1}});
     },
 
 
-    checked: function (listId, id, checked) {
-        Todos.update(id, {$set: {checked: checked}});
-        Lists.update(listId, {$inc: {incompleteCount: checked ? -1 : 1}});
-    },
-
     updateTodo: function (id, text) {
         var todo = Todos.find(id)
         var now = new Date()
-        var d = toDate(text, now)  // todo.createdAt
-
+        var {date, dateAsText} = parseDate(text, todo.createdAt)
 
         Todos.update(id, {
-            $set: {
-                text: text,
-                date: d.start,
-                dateAsText: d.text,
-                modifiedAt: now
-            }
+            $set: {text, date, dateAsText, modifiedAt: now}
         });
     },
 
@@ -65,6 +53,11 @@ Meteor.methods({
         Todos.remove(id);
         if (!this.checked)
             Lists.update(listId, {$inc: {incompleteCount: -1}});
+    },
+
+    checked: function (listId, id, checked) {
+        Todos.update(id, {$set: {checked: checked}});
+        Lists.update(listId, {$inc: {incompleteCount: checked ? -1 : 1}});
     },
 
     removeList: function (listId) {
