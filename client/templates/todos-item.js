@@ -51,7 +51,9 @@ Template.todosItem.events({
   // we don't flood the server with updates (handles the event at most once 
   // every 300ms)
   'keyup input[type=text]': _.throttle(function(event) {
-    Meteor.call("updateTodo", this._id, event.target.value)
+    var text = event.target.value
+    var d = parseDate(text)
+    Meteor.call("updateTodo", this._id, text, d.date)
   }, 300),
   
   // handle mousedown otherwise the blur handler above will swallow the click

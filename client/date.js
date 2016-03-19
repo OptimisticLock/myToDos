@@ -10,22 +10,29 @@ Date.prototype.addHours = function (h) {
     return this;
 }
 
+//-------------------------------------------
+parseDate = function(text, refDate) {
+    var d = toDate(text, refDate)
+    console.log("To date is", d)
+    var date = d ? d.start.date() : null
+    var dateAsText = d ? d.text : null
+    return {date, dateAsText }
+}
+
 //-------------------------------------------------
 toDate = function (text, ref) {
     var parsed = chrono.parse(text, ref)
 
     // If sentence does not contain date, default to the date an hour from the reference date
     // (usually, an hour from now)
- //   if (parsed.length == 0)
- //       return {text:null, start:new Date(ref).addHours(1)}
+    //   if (parsed.length == 0)
+    //       return {text:null, start:new Date(ref).addHours(1)}
 
     var d = parsed[0]
     console.log("D is", JSON.stringify(d))
     return d;
 
 }
-
-
 
 //---------------------------------------------------
 allowDrop = function(ev) {

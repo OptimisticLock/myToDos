@@ -162,7 +162,9 @@ Template.listsShow.events({
       return;
 
     var listId = this._id
-    Meteor.call("addTodo", listId, $input.val());
+    var text =  $input.val()
+    var d = parseDate(text)
+    Meteor.call("addTodo", listId, text, d.date);
     $input.val('');
   }
 });

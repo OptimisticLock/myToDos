@@ -17,34 +17,21 @@ Meteor.publish('todos', function (listId) {
     //  return Todos.find({listId: listId});
 });
 
-//-------------------------------------------
-function parseDate(text, refDate) {
-    var d = toDate(text, refDate)
-    console.log("To date is", d)
-    var date = d ? d.start.date() : null
-    var dateAsText = d ? d.text : null
-    return {date, dateAsText }
-}
 
 // Irina
 //---------------------------------------------------
 Meteor.methods({
-    addTodo: function (listId, text) {
-        var now = new Date()
-        var {date, dateAsText} = parseDate(text, now)
-        var todo = {listId, text, date, dateAsText, createdAt: now}
+    addTodo: function (listId, text, date) {
+        var todo = {listId, text, date, createdAt: new Date()}
         Todos.insert(todo);
         Lists.update(listId, {$inc: {incompleteCount: 1}});
     },
 
-
-    updateTodo: function (id, text) {
+    updateTodo: function (id, text, date) {
         var todo = Todos.find(id)
-        var now = new Date()
-        var {date, dateAsText} = parseDate(text, todo.createdAt)
 
         Todos.update(id, {
-            $set: {text, date, dateAsText, modifiedAt: now}
+            $set: {text, date, modifiedAt: new Date()}
         });
     },
 
