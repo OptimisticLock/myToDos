@@ -16,11 +16,12 @@ toDate = function (text, ref) {
 
     // If sentence does not contain date, default to the date an hour from the reference date
     // (usually, an hour from now)
-    if (parsed.length == 0)
-        return {text:null, start:new Date(ref).addHours(1)}
+ //   if (parsed.length == 0)
+ //       return {text:null, start:new Date(ref).addHours(1)}
 
-    var d = parsed[0]
-    return {text: d.text, start: d.start.date()}
+    var d = parsed[0] || {}
+    console.log("D is", JSON.stringify(d))
+    return d;
 
 }
 

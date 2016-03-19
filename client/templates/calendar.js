@@ -13,23 +13,22 @@ Template.calendar.helpers({
             var todos = Todos.find().fetch()
 
             todos.forEach(function (todo) {
-          //      console.log("todo", todo.text, todo.when)
+                //      console.log("todo", todo.text, todo.when)
 
-                var color = todo.hasDate ? "red": "green"
+                var color = todo.dateAsText ? "red" : "green"
 
-                if (todo.when) {
-                    var event = {
-                        title: todo.text,
-                        start: todo.when.start,
-                        color: color,
-                //        className: "calendarEvent",
-                        editable: true
-                        //     end: "2016-03-30T12:59:00",
-                        //     allDay: false,
-                    }
-
-                    events.push(event)
+                var event = {
+                    title: todo.text,
+                    start: todo.date,
+                    color: color,
+                    //        className: "calendarEvent",
+                    editable: true
+                    //     end: "2016-03-30T12:59:00",
+                    //     allDay: false,
                 }
+
+                events.push(event)
+
             })
 
             callback(events);
