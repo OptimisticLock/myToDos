@@ -10,7 +10,7 @@ Template.todosItem.helpers({
 
   // Irina
   startAt: function() {
-    console.log("start at", this)
+  //  console.log("start at", this)
     var when = this.when
 
     if (!when)

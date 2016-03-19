@@ -13,7 +13,8 @@ Meteor.publish('privateLists', function () {
 Meteor.publish('todos', function (listId) {
     check(listId, String);
 
-    return Todos.find({listId: listId});
+    return Todos.find();
+  //  return Todos.find({listId: listId});
 });
 
 // Irina
@@ -21,11 +22,15 @@ Meteor.methods({
     addTodo: function (listId, text) {
         console.log("**** add todo")
         var now = new Date()
+        var d = toDate(text, now)
+        var dateAsText = d.text
+        console.log("To date is", d)
+
         Todos.insert({
             listId: listId,
             text: text,
-            checked: false,
-            when: toDate(text, now),
+            date: d.start,
+            dateAsText: d.text,
             createdAt: now
         });
 
@@ -40,11 +45,16 @@ Meteor.methods({
 
     updateTodo: function (id, text) {
         var todo = Todos.find(id)
+        var now = new Date()
+        var d = toDate(text, now)  // todo.createdAt
+
 
         Todos.update(id, {
             $set: {
                 text: text,
-                when: toDate(text, todo.createdAt)
+                date: d.start,
+                dateAsText: d.text,
+                modifiedAt: now
             }
         });
     },
