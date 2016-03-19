@@ -19,7 +19,7 @@ toDate = function (text, ref) {
  //   if (parsed.length == 0)
  //       return {text:null, start:new Date(ref).addHours(1)}
 
-    var d = parsed[0] || {}
+    var d = parsed[0]
     console.log("D is", JSON.stringify(d))
     return d;
 

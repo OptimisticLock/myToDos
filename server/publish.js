@@ -23,14 +23,15 @@ Meteor.methods({
         console.log("**** add todo")
         var now = new Date()
         var d = toDate(text, now)
-        var dateAsText = d.text
         console.log("To date is", d)
+        var date = d? d.start.date() : null
+        var dateAsText = d ? d.text : null
 
         Todos.insert({
             listId: listId,
             text: text,
-            date: d.start,
-            dateAsText: d.text,
+            date: date,
+            dateAsText: dateAsText,
             createdAt: now
         });
 
